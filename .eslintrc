@@ -1,0 +1,12 @@
+{
+  "extends": [
+    "react-app"
+  ],
+  "rules": {
+     "quotes": [2, "single", { "avoidEscape": true }],
+     "semi": ["error", "always"],
+     "object-curly-spacing": ["error", "always"],
+     "array-bracket-spacing": ["error", "always"]
+
+  }
+}
