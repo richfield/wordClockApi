@@ -27,9 +27,5 @@ jobs:
         npm install
         tsc
     - name: Copy file
-      uses: canastro/copy-action@0.0.2
-      with:
-        # Source file
-        source: "./wordClockApi/wordClockApi/dist/*.js"
-        # Target file
-        target: "/data/www/nodejs/"
+      run: |
+       cp .wordClockApi/wordClockApi/dist/*.js /data/www/nodejs/
