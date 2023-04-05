@@ -10,5 +10,6 @@ export const defaultSettings: Settings = {
     WordClockDefaultSettings: { backgroundColor: '#242424', foreGroundColor: '#FFFFFF', shadeColor: '#292929', topDistance: '1vmin', sizeFactor: 90 },
     DigitalClockDefaultSettings: { backgroundColor: '#000000', foreGroundColor: '#E61919', shadeColor: '#282828', topDistance: '25vmin', sizeFactor: 90 },
     TimerSettings: { backgroundColor: '#242424', foreGroundColor: '#FFFFFF', shadeColor: '#292929', topDistance: '1vmin', sizeFactor: 90 },
-    Timer: 0
+    Timer: 0,
+    FlipClockDefaultSettings: { backgroundColor: '#242424', foreGroundColor: '#FFFFFF', shadeColor: '#292929', topDistance: '1vmin', sizeFactor: 90 }
 };

@@ -37,8 +37,8 @@ interface Settings {
     WordClockDefaultSettings: ClockSettings,
     DigitalClockDefaultSettings: ClockSettings,
     TimerSettings: ClockSettings,
+    FlipClockDefaultSettings: ClockSettings,
     Timer: number
-
 }
 
 interface ClockSettings {
@@ -46,7 +46,8 @@ interface ClockSettings {
     foreGroundColor: string,
     shadeColor: string,
     topDistance: Property.PaddingTop<TLength>,
-    sizeFactor: number
+    sizeFactor: number,
+    showSeconds?: boolean
 }
 
 interface ClockComponentProps {
