@@ -28,4 +28,4 @@ jobs:
         tsc
     - name: Copy file
       run: |
-       cp .wordClockApi/wordClockApi/dist/*.js /data/www/nodejs/
+       cp ./wordClockApi/wordClockApi/dist/*.js /data/www/nodejs/
