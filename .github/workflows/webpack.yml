@@ -29,3 +29,5 @@ jobs:
     - name: Copy file
       run: |
        cp ${{ github.workspace }}/dist/*.js /data/www/nodejs/
+    - name: Restart Service
+      run: pm2 restart KlokApi
