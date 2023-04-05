@@ -1,2 +1,2 @@
-# blog-node-sqllite-jwt-auth-example
-Node.js JWT Tokens Login &amp; Registration with SQLite Database
+# Simple Api for wordClock
+Consists of a user table containing settings
