@@ -28,6 +28,6 @@ jobs:
         tsc
     - name: Copy file
       run: |
-       cp ${{ github.workspace }}/dist/*.js /data/www/nodejs/
+       cp ${{ github.workspace }}/dist/*.js /docker-config/klokapi
     - name: Restart Service
-      run: pm2 restart KlokApi
+      run: docker restart klokapi
