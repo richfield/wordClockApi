@@ -12,6 +12,7 @@ const app = express();
 dotenv.config();
 const port = process.env.PORT || 3004;
 const DBSOURCE = process.env.DBSOURCE || 'usersdb.sqlite';
+const TOKEN: string = process.env.TOKEN_KEY || ""
 
 const db = new sqlite3.Database(DBSOURCE, (err): void => {
     if (err) {
@@ -145,7 +146,7 @@ app.post('/api/login', async (req, res) => {
                 res.status(400).json('Incorrect password');
                 return;
             }
-            const token = jwt.sign({ user_id: user.Id, username: user.Username }, process.env.TOKEN_KEY, { expiresIn: '1h' });
+            const token = jwt.sign({ user_id: user.Id, username: user.Username }, TOKEN, { expiresIn: '1h' });
             user.Token = token;
             res.status(200).send([user]);
         });
