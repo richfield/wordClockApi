@@ -30,4 +30,4 @@ jobs:
       run: |
        cp ${{ github.workspace }}/dist/*.js /docker-config/klokapi
     - name: Restart Service
-      run: docker restart klokapi
+      run: docker compose -f /docker-config/klokapi/compose.yml up -d --force-recreate
