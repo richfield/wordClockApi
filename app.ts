@@ -190,4 +190,4 @@ app.post('/api/settings', auth, (req, res) => {
     });
 });
 
-app.listen(port, () => console.log(`API listening on port ${port}! from path: ${DBSOURCE}`));
+app.listen(port, () => console.log(`API listening on port ${port}! from path: ${DBSOURCE} env: ${JSON.stringify(process.env)}`));
