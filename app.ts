@@ -163,7 +163,12 @@ app.get('/api/settings', auth, (req, res) => {
             console.log({err, settings:data})
             return;
         }
-        res.status(200).json(data.Settings.DefaultClock ? data.Settings : JSON.stringify(defaultSettings));
+
+        if (!data.Settings.DefaultClock) {
+            data.Settings = defaultSettings;
+            console.log({defaultSettings})
+        }
+        res.status(200).json(data.Settings);
     });
 });
 
