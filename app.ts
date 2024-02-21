@@ -104,7 +104,7 @@ app.post('/api/register', async (req, res) => {
                     Password: hashedPassword,
                     Salt: salt,
                     DateCreated: new Date(),
-                    Settings: {}
+                    Settings: undefined
                 };
                 const insertSql = 'INSERT INTO Users (Username, Password, Salt, DateCreated, Settings) VALUES (?,?,?,?,?)';
                 const params = [data.Username, data.Password, data.Salt, data.DateCreated, JSON.stringify(data.Settings)];
@@ -162,11 +162,6 @@ app.get('/api/settings', auth, (req, res) => {
             res.status(500).json(err);
             console.log({err, settings:data})
             return;
-        }
-
-        if (!data.Settings.DefaultClock && userId == "7") {
-
-            console.log({settings: data.Settings})
         }
         res.status(200).json(data.Settings || defaultSettings);
     });
