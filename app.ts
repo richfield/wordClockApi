@@ -173,8 +173,8 @@ app.get('/api/settings', auth, (req, res) => {
             res.status(200).json(settings || defaultSettings);
         });
     } catch (error) {
-        res.status(200).json(defaultSettings);
         console.log({error});
+        res.status(200).json(defaultSettings);
     }
 });
 
