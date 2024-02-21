@@ -12,5 +12,5 @@ export const defaultSettings: Settings = {
     TimerSettings: { backgroundColor: '#242424', foreGroundColor: '#FFFFFF', shadeColor: '#292929', topDistance: '1vmin', sizeFactor: 90 },
     Timer: 0,
     FlipClockDefaultSettings: { backgroundColor: '#242424', foreGroundColor: '#FFFFFF', shadeColor: '#292929', topDistance: '1vmin', sizeFactor: 90 },
-    ClockClock24DefaultSettings: { backgroundColor: '#242424', foreGroundColor: '#964545', shadeColor: '#FFFFFF', topDistance: '30vmin', sizeFactor: 10 }
+    ClockClock24DefaultSettings: { backgroundColor: '#242424', foreGroundColor: '#964545', shadeColor: '#FFFFFF', topDistance: '30vmin', sizeFactor: 100 }
 };
