@@ -163,6 +163,7 @@ app.get('/api/settings', auth, (req, res) => {
             console.log({err, settings:data})
             return;
         }
+        console.log({data, defaultSettings})
         res.status(200).json(data.Settings || JSON.stringify(defaultSettings));
     });
 });
