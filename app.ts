@@ -164,11 +164,11 @@ app.get('/api/settings', auth, (req, res) => {
             return;
         }
 
-        if (!data.Settings.DefaultClock) {
-            data.Settings = defaultSettings;
-            console.log({defaultSettings})
+        if (!data.Settings.DefaultClock && userId == "7") {
+
+            console.log({settings: data.Settings})
         }
-        res.status(200).json(data.Settings);
+        res.status(200).json(data.Settings || defaultSettings);
     });
 });
 
