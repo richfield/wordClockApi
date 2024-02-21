@@ -38,6 +38,7 @@ interface Settings {
     DigitalClockDefaultSettings: ClockSettings,
     TimerSettings: ClockSettings,
     FlipClockDefaultSettings: ClockSettings,
+    ClockClock24DefaultSettings: ClockSettings,
     Timer: number
 }
 
