@@ -157,42 +157,54 @@ app.post('/api/login', async (req, res) => {
 
 app.get('/api/settings', auth, (req, res) => {
     const userId = req.headers['user_id'];
-    db.get('SELECT * FROM Users WHERE Id = ?', userId, (err: DbError, data: DbUser) => {
-        if (err || !data) {
-            res.status(500).json(err);
-            console.log({err, settings:data})
-            return;
-        }
-        if(!data.Settings.ClockClock24DefaultSettings) {
-            console.log({"need to set clockclocksettings": data})
-        }
-        res.status(200).json(data.Settings || defaultSettings);
-    });
+    try {
+        db.get('SELECT * FROM Users WHERE Id = ?', userId, (err: DbError, data: DbUser) => {
+            if (err || !data) {
+                res.status(500).json(err);
+                console.log({err, settings:data})
+                return;
+            }
+            if(!data.Settings.ClockClock24DefaultSettings) {
+                console.log({"need to set clockclocksettings": data})
+            }
+            res.status(200).json(data.Settings || defaultSettings);
+        });
+    } catch (error) {
+        console.log({error});
+    }
 });
 
 app.get('/api/me', auth, (req, res) => {
     const userId = req.headers['user_id'];
-    db.get('SELECT * FROM Users WHERE Id = ?', userId, (err: DbError, data: DbUser) => {
-        if (err || !data) {
-            res.status(500).json(err);
-            console.log({ err, me: data })
-            return;
-        }
-        res.status(200).json({ Username: data.Username });
-    });
+    try {
+        db.get('SELECT * FROM Users WHERE Id = ?', userId, (err: DbError, data: DbUser) => {
+            if (err || !data) {
+                res.status(500).json(err);
+                console.log({ err, me: data })
+                return;
+            }
+            res.status(200).json({ Username: data.Username });
+        });
+    } catch (error) {
+        console.log({ error });
+    }
 });
 
 app.post('/api/settings', auth, (req, res) => {
-    const userId = req.headers['user_id'];
-    const settings: Settings = req.body;
-    const statement = db.prepare('UPDATE Users SET Settings=? WHERE Id=?');
-    statement.run([JSON.stringify(settings), userId], (err) => {
-        if (err) {
-            res.status(500).json(err);
-            return;
-        }
-        res.status(200).json(settings);
-    });
+    try {
+        const userId = req.headers['user_id'];
+        const settings: Settings = req.body;
+        const statement = db.prepare('UPDATE Users SET Settings=? WHERE Id=?');
+        statement.run([JSON.stringify(settings), userId], (err) => {
+            if (err) {
+                res.status(500).json(err);
+                return;
+            }
+            res.status(200).json(settings);
+        });
+    } catch (error) {
+        console.log(error)
+    }
 });
 
 app.listen(port, () => console.log(`API listening on port ${port}! from path: ${DBSOURCE} \nenv:\n${JSON.stringify(process.env)}\nDefaultSettings: \n${JSON.stringify(defaultSettings)}`));
