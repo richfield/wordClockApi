@@ -165,6 +165,7 @@ app.get('/api/settings', auth, (req, res) => {
         }
         if(!data.Settings.ClockClock24DefaultSettings) {
             console.log("need to set clockclocksettings")
+            data.Settings.ClockClock24DefaultSettings = defaultSettings.ClockClock24DefaultSettings;
         }
         res.status(200).json(data.Settings || defaultSettings);
     });
