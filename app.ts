@@ -166,7 +166,7 @@ app.get('/api/settings', auth, (req, res) => {
         if(userId == "7") {
             console.log({data, defaultSettings})
         }
-        res.status(200).json(data.Settings || JSON.stringify(defaultSettings));
+        res.status(200).json(data.Settings.DefaultClock ? data.Settings : JSON.stringify(defaultSettings));
     });
 });
 
