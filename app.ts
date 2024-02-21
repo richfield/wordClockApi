@@ -160,6 +160,7 @@ app.get('/api/settings', auth, (req, res) => {
     db.get('SELECT * FROM Users WHERE Id = ?', userId, (err: DbError, data: DbUser) => {
         if (err || !data) {
             res.status(500).json(err);
+            console.log({err, settings:data})
             return;
         }
         res.status(200).json(data.Settings || JSON.stringify(defaultSettings));
@@ -171,6 +172,7 @@ app.get('/api/me', auth, (req, res) => {
     db.get('SELECT * FROM Users WHERE Id = ?', userId, (err: DbError, data: DbUser) => {
         if (err || !data) {
             res.status(500).json(err);
+            console.log({ err, me: data })
             return;
         }
         res.status(200).json({ Username: data.Username });
