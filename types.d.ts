@@ -15,7 +15,7 @@ interface DbUser {
     Salt: string,
     iat: number,
     exp: number,
-    Settings: Settings
+    Settings: string
 }
 
 interface DbError {
