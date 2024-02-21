@@ -188,7 +188,7 @@ app.post('/api/settings', auth, (req, res) => {
             res.status(500).json(err);
             return;
         }
-        console.log({updated: settings});
+        console.log({updated: settings, firstSchedule: settings.Schedule[0]});
         res.status(200).json(settings);
     });
 });
