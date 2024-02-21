@@ -188,6 +188,7 @@ app.post('/api/settings', auth, (req, res) => {
             res.status(500).json(err);
             return;
         }
+        console.log({updated: settings});
         res.status(200).json(settings);
     });
 });
