@@ -164,8 +164,7 @@ app.get('/api/settings', auth, (req, res) => {
             return;
         }
         if(!data.Settings.ClockClock24DefaultSettings) {
-            console.log("need to set clockclocksettings")
-            data.Settings.ClockClock24DefaultSettings = defaultSettings.ClockClock24DefaultSettings;
+            console.log({"need to set clockclocksettings": data})
         }
         res.status(200).json(data.Settings || defaultSettings);
     });
@@ -192,7 +191,6 @@ app.post('/api/settings', auth, (req, res) => {
             res.status(500).json(err);
             return;
         }
-        console.log({updated: settings, firstSchedule: settings.Schedule[0]});
         res.status(200).json(settings);
     });
 });
