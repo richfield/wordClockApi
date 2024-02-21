@@ -167,7 +167,7 @@ app.get('/api/settings', auth, (req, res) => {
             const settings = JSON.parse(JSON.stringify(data.Settings))
             if(!settings.ClockClock24DefaultSettings) {
 
-                console.log({"need to set clockclocksettings": settings})
+                console.log({ "need to set clockclocksettings": settings.ClockClock24DefaultSettings })
             }
             res.status(200).json(data.Settings || defaultSettings);
         });
