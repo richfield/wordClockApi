@@ -192,4 +192,4 @@ app.post('/api/settings', auth, (req, res) => {
     });
 });
 
-app.listen(port, () => console.log(`API listening on port ${port}! from path: ${DBSOURCE} env: ${JSON.stringify(process.env)}\nDefaultSettings: ${JSON.stringify(defaultSettings)}`));
+app.listen(port, () => console.log(`API listening on port ${port}! from path: ${DBSOURCE} \nenv:\n${JSON.stringify(process.env)}\nDefaultSettings: \n${JSON.stringify(defaultSettings)}`));
