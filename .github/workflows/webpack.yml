@@ -12,22 +12,25 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [20.x]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
 
     - name: Build
       run: |
-        npm install
-        tsc
-    - name: Copy file
+        npm ci
+        npm run build
+    - name: Copy files
+      if: github.event_name == 'push'
       run: |
-       cp ${{ github.workspace }}/dist/*.js /docker-config/klokapi
+       cp ${{ github.workspace }}/dist/*.js /docker-config/klokapi/
+       cp ${{ github.workspace }}/package.json ${{ github.workspace }}/package-lock.json /docker-config/klokapi/
     - name: Restart Service
+      if: github.event_name == 'push'
       run: docker compose -f /docker-config/klokapi/compose.yml up -d --force-recreate
