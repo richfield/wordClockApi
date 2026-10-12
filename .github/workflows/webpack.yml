@@ -22,10 +22,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: Build
+    - name: Build and test
       run: |
         npm ci
         npm run build
+        npm test
     - name: Copy files
       if: github.event_name == 'push'
       run: |

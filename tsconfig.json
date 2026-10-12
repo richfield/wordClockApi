@@ -104,4 +104,5 @@
 
   },
   "include": [ "./.env", "./*.ts"],
+  "exclude": [ "./*.test.ts", "./vitest.config.ts", "./dist", "./node_modules" ],
 }

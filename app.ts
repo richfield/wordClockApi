@@ -51,7 +51,7 @@ app.use(cors({
     origin: (origin, callback) => {
         if (!origin) return callback(null, true);
         if (!allowedOrigins.includes(origin)) {
-            return callback(new Error('Origin not allowed by CORS policy'), false);
+            return callback(Object.assign(new Error('Origin not allowed by CORS policy'), { status: 403 }), false);
         }
         return callback(null, true);
     }
@@ -59,7 +59,7 @@ app.use(cors({
 
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
-    limit: 20,
+    limit: Number(process.env.AUTH_RATE_LIMIT) || 20,
     standardHeaders: true,
     legacyHeaders: false,
     message: { error: 'Too many attempts, please try again later' }
@@ -186,9 +186,17 @@ app.post('/api/settings', auth, (req, res) => {
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
+app.use((err: Error & { status?: number }, req: Request, res: Response, next: NextFunction) => {
+    const status = err.status && err.status >= 400 && err.status < 500 ? err.status : 500;
+    if (status === 500) {
+        console.error(err);
+    }
+    res.status(status).json({ error: status === 500 ? 'Internal server error' : err.message });
 });
 
-app.listen(port, () => console.log(`API listening on port ${port} using database ${DBSOURCE}`));
+if (!process.env.VITEST) {
+    app.listen(port, () => console.log(`API listening on port ${port} using database ${DBSOURCE}`));
+}
+
+export { app, db };
+export default app;
