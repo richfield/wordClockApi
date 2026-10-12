@@ -30,8 +30,8 @@ jobs:
     - name: Copy files
       if: github.event_name == 'push'
       run: |
-       cp ${{ github.workspace }}/dist/*.js /docker-config/klokapi/
-       cp ${{ github.workspace }}/package.json ${{ github.workspace }}/package-lock.json /docker-config/klokapi/
+       cp --remove-destination ${{ github.workspace }}/dist/*.js /docker-config/klokapi/
+       cp --remove-destination ${{ github.workspace }}/package.json ${{ github.workspace }}/package-lock.json /docker-config/klokapi/
     - name: Restart Service
       if: github.event_name == 'push'
       run: docker compose -f /docker-config/klokapi/compose.yml up -d --force-recreate
