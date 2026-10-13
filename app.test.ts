@@ -223,6 +223,37 @@ describe('API', () => {
         });
     });
 
+    describe('POST /api/log', () => {
+        it('requires authentication', async () => {
+            await request(app).post('/api/log').send({ entries: [ { level: 'error', message: 'x' } ] }).expect(401);
+        });
+
+        it('writes sanitized client entries to the server log', async () => {
+            const log = vi.spyOn(console, 'log').mockImplementation(() => undefined);
+            const { token, id } = await registerAndLogin(app);
+            await request(app)
+                .post('/api/log')
+                .set(bearer(token))
+                .send({ entries: [ { level: 'error', time: '2026-10-13T20:00:00Z', message: 'wake lock failed' }, { level: 'bogus', message: 'y'.repeat(5000) } ] })
+                .expect(204);
+            const line = JSON.parse(String(log.mock.calls.find(([ text ]) => String(text).includes('client-log'))?.[ 0 ]));
+            log.mockRestore();
+            expect(line.userId).toBe(id);
+            expect(line.entries[ 0 ]).toEqual({ level: 'error', time: '2026-10-13T20:00:00Z', message: 'wake lock failed' });
+            expect(line.entries[ 1 ].level).toBe('info');
+            expect(line.entries[ 1 ].message).toHaveLength(2000);
+        });
+
+        it.each([
+            [ 'no entries', {} ],
+            [ 'an empty list', { entries: [] } ],
+            [ 'too many entries', { entries: Array.from({ length: 51 }, () => ({ message: 'x' })) } ],
+        ])('rejects %s', async (_name, body) => {
+            const { token } = await registerAndLogin(app);
+            await request(app).post('/api/log').set(bearer(token)).send(body).expect(400);
+        });
+    });
+
     describe('settings', () => {
         it('returns default settings for a user without stored settings', async () => {
             const { token } = await registerAndLogin(app);

@@ -169,6 +169,38 @@ app.get('/api/me', auth, (req, res) => {
     });
 });
 
+const LOG_LEVELS = [ 'error', 'warn', 'info' ];
+const logLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    limit: Number(process.env.LOG_RATE_LIMIT) || 30,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: 'Too many log requests' }
+});
+
+const clip = (value: unknown, max: number): string => String(value ?? '').slice(0, max);
+
+// Client diagnostics (e.g. screen wake lock problems on a tablet) end up in the container logs
+app.post('/api/log', auth, logLimiter, (req, res) => {
+    const entries: unknown = req.body?.entries;
+    if (!Array.isArray(entries) || entries.length === 0 || entries.length > 50) {
+        res.status(400).json({ error: 'entries must be an array of 1 to 50 items' });
+        return;
+    }
+    const clean = entries.map((entry: Record<string, unknown> | null) => ({
+        level: LOG_LEVELS.includes(String(entry?.level)) ? String(entry?.level) : 'info',
+        time: clip(entry?.time, 40),
+        message: clip(entry?.message, 2000)
+    }));
+    console.log(JSON.stringify({
+        type: 'client-log',
+        userId: res.locals.userId,
+        userAgent: clip(req.headers[ 'user-agent' ], 300),
+        entries: clean
+    }));
+    res.status(204).end();
+});
+
 app.post('/api/settings', auth, (req, res) => {
     const settings: unknown = req.body;
     if (!settings || typeof settings !== 'object' || Array.isArray(settings)) {
